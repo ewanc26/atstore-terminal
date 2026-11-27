@@ -1,3 +1,10 @@
+<p align="center">
+  <a href="https://github.com/ewanc26/atstore-terminal/actions/workflows/ci.yml"><img src="https://github.com/ewanc26/atstore-terminal/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="https://github.com/ewanc26/atstore-terminal/releases/latest"><img src="https://img.shields.io/github/v/release/ewanc26/atstore-terminal?sort=semver" alt="Latest release"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/ewanc26/atstore-terminal?label=licence" alt="AGPL-3.0"></a>
+  <a href="https://github.com/sponsors/ewanc26"><img src="https://img.shields.io/github/sponsors/ewanc26?logo=githubsponsors&logoColor=white&label=sponsors" alt="Sponsor"></a>
+</p>
+
 # atstore-terminal
 
 A CLI and full-screen TUI for [at-store](https://atstore.fyi/en/about), the open directory of Atmosphere apps.
@@ -118,7 +125,13 @@ Layout:
 
 ## Support
 
-Open an issue in this repository with the command you ran, your Node version, and the full error. Please do not include app passwords or tokens.
+If you find this project useful, consider supporting its development:
+
+[![Ko-fi](https://img.shields.io/badge/Ko--fi-F16061?style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/ewancroft)
+[![GitHub Sponsors](https://img.shields.io/badge/GitHub%20Sponsors-30363D?style=for-the-badge&logo=github&logoColor=white)](https://github.com/sponsors/ewanc26)
+[![Liberapay](https://img.shields.io/badge/Liberapay-A60000?style=for-the-badge&logo=liberapay&logoColor=white)](https://liberapay.com/ewanc26/)
+
+For bugs, open an issue with the command you ran, your Node version, and the full error. Please do not include app passwords or tokens.
 
 ## Trademark
 
@@ -126,7 +139,7 @@ ATStore and the at·store wordmark belong to the Atproto Community Collective. T
 
 ## Licence
 
-AGPL-3.0. See [LICENSE](./LICENSE).
+[GNU AGPL-3.0](LICENSE).
 
 ## Credits
 
