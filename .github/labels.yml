@@ -106,20 +106,5 @@ core:
 renames:
   accessibility: 'impact: accessibility'
 
-# Repo-specific labels.
-local:
-  - name: 'platform: desktop'
-    color: 5319e7
-    description: Linux, macOS and Windows hosts
-  - name: 'platform: wii'
-    color: 5319e7
-    description: Nintendo Wii
-  - name: 'platform: wiiu'
-    color: 5319e7
-    description: Nintendo Wii U
-  - name: 'platform: 3ds'
-    color: 5319e7
-    description: Nintendo 3DS
-  - name: 'platform: macos9'
-    color: 5319e7
-    description: Classic Mac OS 9
+# Repo-specific labels. None needed yet.
+local: []
