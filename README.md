@@ -50,7 +50,7 @@ atstore login you.example
 atstore review @mu.social --rating 5 --text "Lovely client" --post
 ```
 
-The CLI requests the app-password-equivalent `atproto transition:generic` scope, stores refresh tokens and DPoP keys in your OS config directory with `0600` permissions, and refreshes access tokens as needed. No token is placed in argv or committed to the repo.
+The CLI requests the app-password-equivalent `atproto transition:generic` scope, stores refresh tokens and DPoP keys in your OS config directory with `0600` permissions, and refreshes access tokens as needed. Set `ATSTORE_CONFIG_DIR` to keep that file somewhere else. No token is placed in argv or committed to the repo.
 
 App passwords remain available as a fallback:
 

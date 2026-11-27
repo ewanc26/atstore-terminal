@@ -23,6 +23,9 @@ function emptyFile(): OAuthFile {
 
 /** Default config location: outside the repo, never committed. */
 export function oauthConfigPath(): string {
+  const configured = process.env.ATSTORE_CONFIG_DIR
+  if (configured) return path.join(configured, 'oauth.json')
+
   if (process.platform === 'darwin') {
     return path.join(os.homedir(), 'Library', 'Application Support', 'atstore', 'oauth.json')
   }

@@ -7,6 +7,7 @@ import {
   type OAuthSession,
 } from '@atproto/oauth-client-node'
 import { openInBrowser } from '../tui/browser.js'
+import { CALLBACK_PAGE_HTML } from './callback-page.js'
 import { DEFAULT_REDIRECT_URI, defaultOAuthStore, type FileOAuthStore } from './store.js'
 
 /**
@@ -48,10 +49,10 @@ export async function loginWithOAuth(
   store: FileOAuthStore = defaultOAuthStore(),
 ): Promise<OAuthSession> {
   const listener = await listenForCallback()
-  await store.setRedirectUri(listener.redirectUri)
-  const client = createOAuthClient(store, listener.redirectUri)
 
   try {
+    await store.setRedirectUri(listener.redirectUri)
+    const client = createOAuthClient(store, listener.redirectUri)
     const authUrl = await client.authorize(handle)
     openInBrowser(authUrl.toString())
 
@@ -141,6 +142,8 @@ async function listenForCallback(): Promise<CallbackListener> {
     finish = resolve
     fail = reject
   })
+  // Setup can fail before the caller awaits; keep that rejection handled.
+  void callback.catch(() => undefined)
 
   const server = http.createServer((request, response) => {
     const url = new URL(request.url ?? '/', 'http://127.0.0.1')
@@ -149,8 +152,13 @@ async function listenForCallback(): Promise<CallbackListener> {
       return
     }
 
-    response.writeHead(200, { 'content-type': 'text/html; charset=utf-8' })
-    response.end('<h1>Authorised</h1><p>You can close this tab and return to the terminal.</p>')
+    response.writeHead(200, {
+      'cache-control': 'no-store',
+      'content-security-policy': "default-src 'none'; style-src 'unsafe-inline'; img-src data:",
+      'content-type': 'text/html; charset=utf-8',
+      'referrer-policy': 'no-referrer',
+    })
+    response.end(CALLBACK_PAGE_HTML)
     if (timer) clearTimeout(timer)
     finish?.(url.searchParams)
   })

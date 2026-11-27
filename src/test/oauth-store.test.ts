@@ -5,7 +5,7 @@ import path from 'node:path'
 import process from 'node:process'
 import test from 'node:test'
 import type { NodeSavedSession, NodeSavedState } from '@atproto/oauth-client-node'
-import { FileOAuthStore } from '../oauth/index.js'
+import { FileOAuthStore, oauthConfigPath } from '../oauth/index.js'
 
 const state = {
   iss: 'https://pds.example',
@@ -98,6 +98,17 @@ test('OAuth store rejects an invalid session file', async () => {
     await assert.rejects(() => new FileOAuthStore(file).getCurrentDid(), /invalid/)
   } finally {
     await cleanup()
+  }
+})
+
+test('OAuth config directory can be overridden', () => {
+  const previous = process.env.ATSTORE_CONFIG_DIR
+  process.env.ATSTORE_CONFIG_DIR = '/custom/config'
+  try {
+    assert.equal(oauthConfigPath(), '/custom/config/oauth.json')
+  } finally {
+    if (previous === undefined) delete process.env.ATSTORE_CONFIG_DIR
+    else process.env.ATSTORE_CONFIG_DIR = previous
   }
 })
 
