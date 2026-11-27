@@ -30,6 +30,10 @@ atstore reviews "Witchsky" --all
 atstore tags --pages 4
 atstore describe
 
+atstore login you.bsky.social     # OAuth via your own PDS
+atstore whoami                    # inspect the stored session
+atstore logout                    # revoke and remove it
+
 atstore --json search "mu" --limit 5   # machine-readable output
 ```
 
@@ -37,10 +41,21 @@ atstore --json search "mu" --limit 5   # machine-readable output
 
 `atstore review` builds the `fyi.atstore.listing.review` record described in the [developer docs](https://atstore.fyi/developers/atproto). Without `--post` it prints the record as JSON so you can inspect or publish it yourself.
 
-To publish it to your own PDS, create an [app password](https://bsky.app/settings/app-passwords) and set:
+To publish it to your own PDS, sign in once with OAuth. This works with `bsky.social` and self-hosted PDSes because the handle's DID document is used to discover its authorisation server:
 
 ```sh
-export ATPROTO_IDENTIFIER=you.bsky.social
+atstore login you.example
+# your browser opens the PDS authorisation page, then redirects to a loopback port
+
+atstore review @mu.social --rating 5 --text "Lovely client" --post
+```
+
+The CLI requests the app-password-equivalent `atproto transition:generic` scope, stores refresh tokens and DPoP keys in your OS config directory with `0600` permissions, and refreshes access tokens as needed. No token is placed in argv or committed to the repo.
+
+App passwords remain available as a fallback:
+
+```sh
+export ATPROTO_IDENTIFIER=you.example
 export ATPROTO_APP_PASSWORD=xxxx-xxxx-xxxx-xxxx
 # optional, defaults to https://bsky.social
 export ATPROTO_PDS=https://your-pds.example
@@ -48,7 +63,7 @@ export ATPROTO_PDS=https://your-pds.example
 atstore review @mu.social --rating 5 --text "Lovely client" --post
 ```
 
-The tool creates the required `fyi.atstore.profile` record at rkey `self` if it does not exist. Credentials are read from the environment, never from argv. App passwords are the legacy ATProto auth path; they remain suitable for a personal CLI.
+`review --post` prefers a stored OAuth session and only falls back to those environment variables when no session exists. The tool creates the required `fyi.atstore.profile` record at rkey `self` if it does not exist.
 
 ## TUI keys
 
@@ -93,7 +108,8 @@ Layout:
 - `src/directory/` — shared directory helpers such as tag counts
 - `src/format/` — terminal width, tables and detail rendering
 - `src/interactive/` — Clack guided flows
-- `src/review/` — review records and PDS publishing
+- `src/oauth/` — loopback OAuth login, secure token storage and session restore
+- `src/review/` — review records, auth selection and PDS publishing
 - `src/tui/` — `@bomb.sh/tty` frame, input parsing and session
 - `src/types/` — API types grouped by domain
 - `src/test/` — compiled Node tests
