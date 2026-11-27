@@ -2,6 +2,8 @@
 
 A CLI and full-screen TUI for [at-store](https://atstore.fyi/en/about), the open directory of Atmosphere apps.
 
+![atstore-terminal full-screen TUI showing the ATStore directory](assets/tui.png)
+
 Listings are public `fyi.atstore.listing.detail` records on their makers' PDSes. This tool talks to the public [XRPC API](https://atstore.fyi/developers/atproto) — no account needed to browse — and can optionally publish a review to your own PDS.
 
 Built with [bomb.sh](https://bomb.sh): `@bomb.sh/router` for typed command routing, `@bomb.sh/args` for the TUI command bar, `@bomb.sh/tty` for the full-screen renderer, and `@clack/prompts` for the guided prompts.
