@@ -71,7 +71,9 @@ export function printReviewDraft(listing: ListingSummary, record: ReviewRecord):
   console.log()
   printJson(record)
   console.log()
-  console.log(dim('Add --post and set ATPROTO_IDENTIFIER / ATPROTO_APP_PASSWORD to publish.'))
+  console.log(
+    dim('Add --post to publish: run `atstore login <handle>` first, or use app-password env vars.'),
+  )
 }
 
 export function printPublished(result: PublishResult): void {
