@@ -1,0 +1,44 @@
+{
+  "name": "atstore-terminal",
+  "version": "0.1.0",
+  "description": "A CLI and TUI for the ATStore Atmosphere app directory",
+  "type": "module",
+  "bin": {
+    "atstore": "./dist/cli.js"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "tsx src/cli.ts",
+    "build": "tsc -p tsconfig.json && chmod +x dist/cli.js",
+    "check": "npm run typecheck",
+    "type-check": "npm run typecheck",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "npm run build && node --test dist/test/*.test.js",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "prepare": "npm run build",
+    "prepack": "npm run build"
+  },
+  "dependencies": {
+    "@bomb.sh/args": "^0.3.1",
+    "@bomb.sh/router": "^0.8.0",
+    "@bomb.sh/tty": "^0.10.0",
+    "@clack/prompts": "^1.9.0",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.0",
+    "prettier": "^3.6.2",
+    "tsx": "^4.20.0",
+    "typescript": "^5.8.0"
+  }
+}
