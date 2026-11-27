@@ -29,6 +29,7 @@
     "prepack": "npm run build"
   },
   "dependencies": {
+    "@atproto/oauth-client-node": "^0.5.21",
     "@bomb.sh/args": "^0.3.1",
     "@bomb.sh/router": "^0.8.0",
     "@bomb.sh/tty": "^0.10.0",
