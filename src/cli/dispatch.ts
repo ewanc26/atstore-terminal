@@ -21,12 +21,15 @@ import { dim, yellow } from '../style.js'
 import {
   completionsCommand,
   describeCommand,
+  loginCommand,
+  logoutCommand,
   reviewCommand,
   reviewsCommand,
   searchCommand,
   showCommand,
   tagsCommand,
   tuiCommand,
+  whoamiCommand,
 } from './commands/index.js'
 import { errorMessage, printJson } from './output.js'
 import {
@@ -133,9 +136,19 @@ const app = command(
     option(name('text'), schema(z.string().optional())),
     toggle(
       name('post'),
-      description('Publish to your PDS (needs ATPROTO_IDENTIFIER and ATPROTO_APP_PASSWORD)'),
+      description('Publish to your PDS (uses `atstore login`, or app-password env vars)'),
     ),
   ),
+
+  command(
+    name('login'),
+    description('Sign in with OAuth, opening your PDS in the browser'),
+    argument(name('handle'), schema(z.string()), description('Your ATProto handle or DID')),
+  ),
+
+  command(name('logout'), description('Remove the stored OAuth session')),
+
+  command(name('whoami'), description('Show the stored OAuth session')),
 
   command(name('completions'), description('Print shell setup for tab completion')),
 )
@@ -213,6 +226,18 @@ export async function main(argv: string[] = process.argv.slice(2)): Promise<numb
           result.model.post,
           json,
         )
+        return 0
+
+      case '/login':
+        await loginCommand(result.model.handle)
+        return 0
+
+      case '/logout':
+        await logoutCommand()
+        return 0
+
+      case '/whoami':
+        await whoamiCommand()
         return 0
 
       case '/completions':

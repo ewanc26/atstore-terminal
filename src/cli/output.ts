@@ -91,11 +91,12 @@ export function completionScript(): string {
   list [query]       show <target> [--reviews]
   reviews <target>   tags [--pages N]
   describe           review <target> [--rating N] [--text "..."] [--post]
+  login <handle>     logout             whoami
 
 Common flags:
   --json  --tag  --category  --data  --sort  --min-rating  --has
   --limit  --cursor  --reviews  --all  --post  --base-url
 
-Zsh example: compdef '_arguments "*: :((tui search list show reviews tags describe review completions))"' atstore
+Zsh example: compdef '_arguments "*: :((tui search list show reviews tags describe review login logout whoami completions))"' atstore
 `
 }
