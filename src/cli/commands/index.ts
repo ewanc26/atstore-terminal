@@ -1,3 +1,4 @@
+export { loginCommand, logoutCommand, whoamiCommand } from './auth.js'
 export { completionsCommand } from './completions.js'
 export { describeCommand } from './describe.js'
 export { reviewCommand } from './review.js'

@@ -1,6 +1,5 @@
-import process from 'node:process'
 import { ATStoreClient } from '../../client/index.js'
-import { buildReviewRecord, publishReview } from '../../review/index.js'
+import { buildReviewRecord, publishReview, resolveReviewAuth } from '../../review/index.js'
 import { printJson, printPublished, printReviewDraft } from '../output.js'
 import { resolveListing } from '../resolve.js'
 
@@ -21,17 +20,9 @@ export async function reviewCommand(
     return
   }
 
-  const identifier = process.env.ATPROTO_IDENTIFIER
-  const appPassword = process.env.ATPROTO_APP_PASSWORD
-  if (!identifier || !appPassword) {
-    throw new Error(
-      'Set ATPROTO_IDENTIFIER and ATPROTO_APP_PASSWORD (an app password) before using --post.',
-    )
-  }
-
+  const auth = await resolveReviewAuth()
   const published = await publishReview({
-    identifier,
-    appPassword,
+    auth,
     subject: listing.uri,
     rating,
     text,
