@@ -48,10 +48,10 @@ export async function loginWithOAuth(
   store: FileOAuthStore = defaultOAuthStore(),
 ): Promise<OAuthSession> {
   const listener = await listenForCallback()
-  await store.setRedirectUri(listener.redirectUri)
-  const client = createOAuthClient(store, listener.redirectUri)
 
   try {
+    await store.setRedirectUri(listener.redirectUri)
+    const client = createOAuthClient(store, listener.redirectUri)
     const authUrl = await client.authorize(handle)
     openInBrowser(authUrl.toString())
 
@@ -141,6 +141,8 @@ async function listenForCallback(): Promise<CallbackListener> {
     finish = resolve
     fail = reject
   })
+  // Setup can fail before the caller awaits; keep that rejection handled.
+  void callback.catch(() => undefined)
 
   const server = http.createServer((request, response) => {
     const url = new URL(request.url ?? '/', 'http://127.0.0.1')
